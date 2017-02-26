@@ -1,0 +1,63 @@
+.content {
+	margin-top: 100px;
+	min-width: 200px;
+}
+
+h1{
+	font-size: 30px;
+	font-family: verdana;
+	text-align: center;
+}
+
+button {
+	margin: 2px;
+}
+
+table{
+	margin-top: 20px;
+	font-family: verdana;
+}
+
+th{
+	font-family: verdana;
+	font-weight: lighter;
+	font-size: 20px;
+}
+
+a{
+	color: #000000;
+	
+}
+
+a:hover{
+	text-decoration: none;
+	font-weight: bolder;
+	color: #e65c00;
+}
+
+.modal-header{
+    background-color: #e65c00;
+    color: white !important;
+    text-align: center;
+    font-size: 30px;
+}
+
+.highlight {
+ 	background-color: #4d4d4d !important;
+  	color: white;
+}
+
+.btn-primary{
+	background-color: #e65c00;
+	border-color: #000000;
+}
+
+.btn-primary:hover{
+	background-color: #000000;
+	color: #FFFFFF;
+}
+
+.btn-primary:focus{
+	background-color: #000000;
+}
+
