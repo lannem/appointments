@@ -1,6 +1,6 @@
 .content {
 	margin-top: 100px;
-	min-width: 200px;
+	min-width: 300px;
 }
 
 h1{
@@ -61,3 +61,19 @@ a:hover{
 	background-color: #000000;
 }
 
+#buttons{
+	text-align: center;
+}
+
+#searchInput{
+	margin-right: 5px;
+}
+
+#searchForm{
+	text-align: center;
+	margin: 10px;
+}
+
+#navBarTitle{
+	margin-top: 4px;
+}

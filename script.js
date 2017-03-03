@@ -24,6 +24,7 @@ $(document).ready(function() {
 	$("#submitApp").click(submitAppointment);
 	$("#deleteButton").click(deleteAppointment);
 	$("#editButton").click(editAppointment);
+	$("#searchButton").click(search);
 	//event handlers - table headers - for sorting
 	$("#nameCol").click(function() {sortBy('name');});
 	$("#dateCol").click(function() {sortBy('date');});
@@ -159,4 +160,24 @@ function sortBy(field){
 	}
 
 	populateTable();
+}
+
+//search appointments
+function search(){
+	var fullList = appointments;
+	appointments = [];
+
+	var searchBy = $("#searchBy option:selected").text();
+	var input = $("#searchInput").val();
+
+	for(var i=0; i<fullList.length; i++){
+		if(fullList[i][searchBy].toLowerCase().search(input.toLowerCase()) != -1){
+			appointments.push(fullList[i]);
+		}
+
+	}
+
+	populateTable();
+
+	appointments = fullList;
 }
