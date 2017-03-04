@@ -17,6 +17,8 @@ $(document).ready(function() {
 		{name: 'Patrick Slater', date: '2016-12-08', time: '15:30'}
 	];
 
+	var allAppointments = appointments;
+
 	populateTable();
 
 	//event handlers - buttons
@@ -164,6 +166,7 @@ function sortBy(field){
 
 //search appointments
 function search(){
+
 	var fullList = appointments;
 	appointments = [];
 
@@ -179,5 +182,7 @@ function search(){
 
 	populateTable();
 
-	appointments = fullList;
+	if(input == ""){
+		appointments = fullList;
+	}
 }
