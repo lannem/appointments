@@ -1,4 +1,5 @@
 var appointments;
+var displayAppointments;
 
 $(document).ready(function() {
 	appointments = new Array();
@@ -16,8 +17,6 @@ $(document).ready(function() {
 		{name: 'Jade Frost', date: '2017-05-10', time: '14:00'},
 		{name: 'Patrick Slater', date: '2016-12-08', time: '15:30'}
 	];
-
-	var allAppointments = appointments;
 
 	populateTable();
 
@@ -38,7 +37,9 @@ $(document).ready(function() {
 function populateTable(){
 	$("#table tbody").empty();
 
-	$.each(appointments, function(index, value){
+	updateAppointments();
+
+	$.each(displayAppointments, function(index, value){
 		var tr = $('<tr>').appendTo('tbody');
 		
 		$.each(value, function(propIndex, propVal){
@@ -99,9 +100,14 @@ function deleteAppointment(){
 		var selected = $(this).hasClass("highlight");
 		if(selected){
 			$(this).remove();
-			appointments.splice(index, 1);
+			displayAppointments.splice(getAppointmentIndex(index), 1);
 		}
 	});	
+}
+
+//returns index of appointment in appointments equal to same appointment in display appointments 
+function getAppointmentIndex(index) {
+	return appointments.findIndex(function(element) {return element == displayAppointments[index]});
 }
 
 //edit selected appointment - display modal with edit form
@@ -113,9 +119,9 @@ function editAppointment(){
 			$("#addAppModal").modal();
 
 			//set form values to current values of selected appointment
-			$("#name").val(appointments[index].name);
-			$("#date").val(appointments[index].date);
-			$("#time").val(appointments[index].time);
+			$("#name").val(displayAppointments[index].name);
+			$("#date").val(displayAppointments[index].date);
+			$("#time").val(displayAppointments[index].time);
 
 			$("#modalHead").html("Edit Appointment");
 			$("#submitApp").hide();
@@ -127,7 +133,7 @@ function editAppointment(){
 					$("#message").html("Please complete all fields");
 				}
 				else{
-					appointments[index] = {name: $("#name").val(), date: $("#date").val(), time: $("#time").val()};
+					appointments[getAppointmentIndex(index)] = {name: $("#name").val(), date: $("#date").val(), time: $("#time").val()};
 
 					$("form").trigger("reset");
 
@@ -144,45 +150,50 @@ function editAppointment(){
 }
 
 var sorted = {field: "name", clicked:false};
+var sortField;
 
 //sort appointments to asc/desc
 function sortBy(field){
-	appointments.sort(function(a, b){
-		if(a[field].toLowerCase() < b[field].toLowerCase()) return -1;
-		if(a[field].toLowerCase() > b[field].toLowerCase()) return 1;
-		return 0;
-	});
-
-	if(sorted.field == field && sorted.clicked == true){
-		appointments.reverse();
-		sorted = {field:field, clicked:false};
-	}
-	else{
-		sorted = {field:field, clicked:true};
-	}
-
+	sortField = field;
 	populateTable();
 }
 
+var searchTerm;
+var searchBy;
+
 //search appointments
 function search(){
-
-	var fullList = appointments;
-	appointments = [];
-
-	var searchBy = $("#searchBy option:selected").text();
-	var input = $("#searchInput").val();
-
-	for(var i=0; i<fullList.length; i++){
-		if(fullList[i][searchBy].toLowerCase().search(input.toLowerCase()) != -1){
-			appointments.push(fullList[i]);
-		}
-
-	}
-
+	searchTerm = $("#searchInput").val();
+	searchBy = $("#searchBy option:selected").text();
 	populateTable();
+}
 
-	if(input == ""){
-		appointments = fullList;
+function updateAppointments(){
+	 displayAppointments = appointments;
+
+	 if (searchTerm != undefined) {
+	 	displayAppointments = [];
+ 		for(var i=0; i<appointments.length; i++){
+			if(appointments[i][searchBy].toLowerCase().search(searchTerm.toLowerCase()) != -1){
+				displayAppointments.push(appointments[i]);
+			}
+		}
+	 }
+
+	if (sortField != undefined) {
+		displayAppointments.sort(function(a, b){
+			if(a[sortField].toLowerCase() < b[sortField].toLowerCase()) return -1;
+			if(a[sortField].toLowerCase() > b[sortField].toLowerCase()) return 1;
+			return 0;
+		});
+
+		//reverses order
+		if(sorted.field == sortField && sorted.clicked == true){
+			displayAppointments.reverse();
+			sorted = {field:sortField, clicked:false};
+		}
+		else{
+			sorted = {field:sortField, clicked:true};
+		}
 	}
 }
