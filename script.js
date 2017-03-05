@@ -114,7 +114,7 @@ function getAppointmentIndex(index) {
 function editAppointment(){
 	$("tbody > tr").each(function(index, element){
 		var selected = $(this).hasClass("highlight");
-			
+
 		if(selected){
 			$("#addAppModal").modal();
 
@@ -128,6 +128,7 @@ function editAppointment(){
 			$("#updateApp").show();
 
 			//event handler for update button - updates appointment and rewrites table
+			$("#updateApp").unbind();
 			$("#updateApp").click(function(){
 				if($("#name").val().length == 0 || $("#date").val().length == 0){
 					$("#message").html("Please complete all fields");
